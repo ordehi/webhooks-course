@@ -4,12 +4,12 @@ const axios = require('axios').default;
 exports.handler = async (event, context) => {
   try {
     const body = JSON.parse(event.body);
+    const action = event.headers['x-github-event'];
     const username = body.sender.login;
     const avatarUrl = body.sender.avatar_url;
     const repoName = body.repository.name;
-    const action = body.action;
     const res = await axios.post(process.env.DISCORD_WEBHOOK_URL, {
-      content: `:taco: ${username} just ${action} ${repoName}! :rocket:`,
+      content: `:taco: ${username} just ${action}ed ${repoName}! :rocket:`,
       embeds: [
         {
           image: {
